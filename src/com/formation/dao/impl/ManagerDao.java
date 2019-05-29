@@ -5,13 +5,15 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.formation.bean.UserBean;
 import com.formation.dao.IManagerDao;
 import com.formation.util.HibernateUtil;
 
 public class ManagerDao<T> extends HibernateUtil implements IManagerDao<T> {
 
 	@SuppressWarnings("static-access")
-	Session hibernateSession = this.getSessionFactory().openSession();
+	Session hibernateSession = UserBean.getSessionFactory().openSession();
+	
 	
 	@SuppressWarnings("unchecked")
 	@Override

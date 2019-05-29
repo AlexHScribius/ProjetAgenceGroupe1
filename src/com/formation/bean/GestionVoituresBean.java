@@ -3,8 +3,12 @@ package com.formation.bean;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+
+import org.primefaces.event.RowEditEvent;
 
 import com.formation.model.Client;
 import com.formation.model.Location;
@@ -58,25 +62,34 @@ public class GestionVoituresBean {
 		locationService.reserverVoiture(v, new Client(UserBean.getConnectedUser()));
 	}
 	
-	public String editerVoiture (Voiture v) {
-		return v.setEditable(true);
-	}
-	
-	public String saveAction () {
-		for (Voiture v : listeVoitures) {
-			v.setEditable(false);
-			voitureService.update(v);
-		}
-		listeVoitures=getVoitureListAll();
-		return null;
-	}
-	
 	public String saveAjout() {
 		Voiture voiture = new Voiture(marque, immatriculation, prix, true);
 		voitureService.add(voiture);
 		listeVoitures=getVoitureListAll();
 		return null;
 	}
+	
+    public void onRowEditVoiture(RowEditEvent event) {
+    	voitureService.update((Voiture) event.getObject());
+        FacesMessage msg = new FacesMessage("Voiture modifiée");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+     
+    public void onRowCancelVoiture(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Modification annulée");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    public void onRowEditLocation(RowEditEvent event) {
+    	locationService.update((Location) event.getObject());
+        FacesMessage msg = new FacesMessage("Location modifiée");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+     
+    public void onRowCancelLocation(RowEditEvent event) {
+        FacesMessage msg = new FacesMessage("Modification annulée");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
 	
 	public List<Location> getLocationListAll(){
 		return locationService.consulterListeLocation();
@@ -110,6 +123,9 @@ public class GestionVoituresBean {
 		return null;
 	}
 	
+	public void saveVoiture(Voiture currentVoiture) {
+		voitureService.update(currentVoiture);
+	}
 	
 	///////////////////////////////////////////
 	// Getters && Setters :
