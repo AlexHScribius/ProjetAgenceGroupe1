@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Menu Client</title>
+</h:head>
+
+<h:body bgcolor="white">
+	<div align="center">
+		<h1 class="title">Menu Principal</h1>
+		<br />
+			<fieldset>
+			<legend>Liste des voitures disponibles</legend>
+				<h:form>
+					<p:dataTable value="#{GestionVoituresBean.listeVoitures}" var="voiture" id="mydata" rowKey="#{voiture.id_voiture}">
+						<p:column>
+							<f:facet name="header">#</f:facet>
+							<h:outputText value="#{voiture.id_voiture}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">marque</f:facet>
+							<h:outputText value="#{voiture.marque}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">immatriculation</f:facet>
+							<h:outputText value="#{voiture.immatriculation}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">prix</f:facet>
+							<h:outputText value="#{voiture.prix}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">réservation</f:facet>
+							<p:commandButton value="Réserver" action="#{GestionVoituresBean.reserverVoiture(voiture)}"/>
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</fieldset>
+	</div>
+</h:body>
+</html>
+
+
+
+
+
+
+
+
+

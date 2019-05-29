@@ -1,0 +1,117 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Menu Agent</title>
+</h:head>
+
+<h:body bgcolor="white">
+	<div align="center">
+		<h1 class="title">Menu Principal</h1>
+		<br />
+			<fieldset>
+			<legend>Liste des voitures</legend>
+				<h:form>
+					<p:dataTable value="#{GestionVoituresBean.listeVoitures}" var="voiture" id="mydata" rowKey="#{voiture.id_voiture}">
+						<p:column>
+							<f:facet name="header">#</f:facet>
+							<h:outputText value="#{voiture.id_voiture}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">marque</f:facet>
+							<h:inputText value="#{voiture.marque}" rendered="#{voiture.editable}"/>
+							<h:outputText value="#{voiture.marque}" rendered="#{not voiture.editable}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">immatriculation</f:facet>
+							<h:inputText value="#{voiture.immatriculation}" rendered="#{voiture.editable}"/>
+							<h:outputText value="#{voiture.immatriculation}" rendered="#{not voiture.editable}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">prix</f:facet>
+							<h:inputText value="#{voiture.prix}" rendered="#{voiture.editable}"/>
+							<h:outputText value="#{voiture.prix}" rendered="#{not voiture.editable}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">disponibilité</f:facet>
+							<h:inputText value="#{voiture.dispo}" rendered="#{voiture.editable}"/>
+							<h:outputText value="#{voiture.dispo}" rendered="#{not voiture.editable}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Édition</f:facet>
+							<p:commandButton value="Éditer" action="#{GestionVoituresBean.editerVoiture(voiture)}" ajax="false" rendered="#{not voiture.editable}"/>
+							<h:outputText value=" "/>
+							<p:commandButton value="Supprimer" action="#{GestionVoituresBean.supprimerVoiture(voiture)}" ajax="false" rendered="#{not voiture.editable}"/>
+						</p:column>
+					</p:dataTable>
+					<p:commandButton value="Save" action="#{GestionVoituresBean.saveAction}" update="mydata"/>
+					
+					<p:panelGrid columns="6">
+						<f:facet name="header">Ajouter une voiture</f:facet>
+						<h:outputLabel for="marque" value="Marque : "/>
+						<h:inputText id="marque" value="#{GestionVoituresBean.marque}"/>
+						<h:outputLabel for="immatriculation" value="Immatriculation : "/>
+						<h:inputText id="immatriculation" value="#{GestionVoituresBean.immatriculation}"/>
+						<h:outputLabel for="prix" value="Prix : "/>
+						<h:inputText id="prix" value="#{GestionVoituresBean.prix}"/>
+						
+						<p:commandButton value="Save" action="#{GestionVoituresBean.saveAjout}" update="mydata"/>
+					</p:panelGrid>
+					
+				</h:form>
+			</fieldset>
+			
+			<br />
+			<fieldset>
+			<legend>Liste des locations</legend>
+				<h:form>
+					<p:dataTable value="#{GestionVoituresBean.locationListAll}" var="location" id="mydata2" rowKey="#{location.id_location}">
+						<p:column>
+							<f:facet name="header">#</f:facet>
+							<h:outputText value="#{location.id_location}" rendered="#{not location.editable}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">identifiant voiture</f:facet>
+							<h:inputText value="#{location.voiture.id_voiture}" rendered="#{location.editable}"/>
+							<h:outputText value="#{location.voiture.id_voiture}" rendered="#{not location.editable}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">identifiant client</f:facet>
+							<h:inputText value="#{location.client.id_personne}" rendered="#{location.editable}"/>
+							<h:outputText value="#{location.client.id_personne}" rendered="#{not location.editable}"/>
+						</p:column>
+						<p:column>
+							<f:facet name="header">Édition</f:facet>
+							<p:commandButton value="Éditer" action="#{GestionVoituresBean.editerLocation(location)}" rendered="#{not location.editable}"/>
+							<h:outputText value=" "/>
+							<p:commandButton value="Supprimer" action="#{GestionVoituresBean.supprimerLocation(location)}" rendered="#{not location.editable}"/>
+						</p:column>
+					</p:dataTable>
+					<p:commandButton value="Save" action="#{GestionVoituresBean.saveEditionLocation}" update="mydata2"/>
+					
+					<p:panelGrid columns="4">
+						<f:facet name="header">Ajouter une location</f:facet>
+						<h:outputLabel for="id_voiture" value="Identifiant voiture : "/>
+						<h:inputText id="id_voiture" value="#{GestionVoituresBean.id_voiture}"/>
+						<h:outputLabel for="id_client" value="Identifiant client : "/>
+						<h:inputText id="id_client" value="#{GestionVoituresBean.id_client}"/>
+						
+						<p:commandButton value="Save" action="#{GestionVoituresBean.saveAjoutLocation}" update="mydata2"/>
+					</p:panelGrid>
+					
+				</h:form>
+			</fieldset>
+	</div>
+</h:body>
+</html>
+
+
+
+
+
+
+
+
+
