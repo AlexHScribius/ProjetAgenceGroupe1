@@ -14,41 +14,50 @@
 			<fieldset>
 			<legend>Liste des voitures</legend>
 				<h:form>
-					<p:dataTable value="#{GestionVoituresBean.listeVoitures}" var="voiture" id="mydata" rowKey="#{voiture.id_voiture}">
+					<p:dataTable value="#{GestionVoituresBean.listeVoitures}" var="voiture" editable="true" id="mydata" rowKey="#{voiture.id_voiture}">
+						<p:ajax event="rowEdit" listener="#{GestionVoituresBean.onRowEditVoiture}"/>
+						<p:ajax event="rowEditCancel" listener="#{GestionVoituresBean.onRowCancelVoiture}"/>
 						<p:column>
 							<f:facet name="header">#</f:facet>
 							<h:outputText value="#{voiture.id_voiture}"/>
 						</p:column>
 						<p:column>
 							<f:facet name="header">marque</f:facet>
-							<h:inputText value="#{voiture.marque}" rendered="#{voiture.editable}"/>
-							<h:outputText value="#{voiture.marque}" rendered="#{not voiture.editable}"/>
-						</p:column>
+							<p:cellEditor>
+								<f:facet name="output"><h:outputText value="#{voiture.marque}"/></f:facet>
+								<f:facet name="input"><h:inputText value="#{voiture.marque}" style="width:100%"/></f:facet>
+							</p:cellEditor> 
+ 						</p:column>
 						<p:column>
 							<f:facet name="header">immatriculation</f:facet>
-							<h:inputText value="#{voiture.immatriculation}" rendered="#{voiture.editable}"/>
-							<h:outputText value="#{voiture.immatriculation}" rendered="#{not voiture.editable}"/>
+							<p:cellEditor>
+								<f:facet name="output"><h:outputText value="#{voiture.immatriculation}"/></f:facet>
+								<f:facet name="input"><h:inputText value="#{voiture.immatriculation}" style="width:100%"/></f:facet>
+							</p:cellEditor>
 						</p:column>
 						<p:column>
 							<f:facet name="header">prix</f:facet>
-							<h:inputText value="#{voiture.prix}" rendered="#{voiture.editable}"/>
-							<h:outputText value="#{voiture.prix}" rendered="#{not voiture.editable}"/>
+							<p:cellEditor>
+								<f:facet name="output"><h:outputText value="#{voiture.prix}"/></f:facet>
+								<f:facet name="input"><h:inputText value="#{voiture.prix}" style="width:100%"/></f:facet>
+							</p:cellEditor>
 						</p:column>
 						<p:column>
 							<f:facet name="header">disponibilité</f:facet>
-							<h:inputText value="#{voiture.dispo}" rendered="#{voiture.editable}"/>
-							<h:outputText value="#{voiture.dispo}" rendered="#{not voiture.editable}"/>
+							<p:cellEditor>
+								<f:facet name="output"><h:outputText value="#{voiture.dispo}"/></f:facet>
+								<f:facet name="input"><h:inputText value="#{voiture.dispo}" style="width:100%"/></f:facet>
+							</p:cellEditor>
 						</p:column>
-						<p:column>
+						<p:column  style="width:35px">
 							<f:facet name="header">Édition</f:facet>
-							<p:commandButton value="Éditer" action="#{GestionVoituresBean.editerVoiture(voiture)}" ajax="false" rendered="#{not voiture.editable}"/>
-							<h:outputText value=" "/>
-							<p:commandButton value="Supprimer" action="#{GestionVoituresBean.supprimerVoiture(voiture)}" ajax="false" rendered="#{not voiture.editable}"/>
+							<p:rowEditor />
 						</p:column>
 					</p:dataTable>
-					<p:commandButton value="Save" action="#{GestionVoituresBean.saveAction}" update="mydata"/>
 					
-					<p:panelGrid columns="6">
+					<br/><br/>
+					
+					<p:panelGrid columns="7">
 						<f:facet name="header">Ajouter une voiture</f:facet>
 						<h:outputLabel for="marque" value="Marque : "/>
 						<h:inputText id="marque" value="#{GestionVoituresBean.marque}"/>
@@ -63,35 +72,40 @@
 				</h:form>
 			</fieldset>
 			
-			<br />
+			<br/><br/>
+			
 			<fieldset>
 			<legend>Liste des locations</legend>
 				<h:form>
 					<p:dataTable value="#{GestionVoituresBean.locationListAll}" var="location" id="mydata2" rowKey="#{location.id_location}">
+						<p:ajax event="rowEdit" listener="#{GestionVoituresBean.onRowEditLocation}"/>
+						<p:ajax event="rowEditCancel" listener="#{GestionVoituresBean.onRowCancelLocation}"/>
 						<p:column>
 							<f:facet name="header">#</f:facet>
 							<h:outputText value="#{location.id_location}" rendered="#{not location.editable}"/>
 						</p:column>
 						<p:column>
 							<f:facet name="header">identifiant voiture</f:facet>
-							<h:inputText value="#{location.voiture.id_voiture}" rendered="#{location.editable}"/>
-							<h:outputText value="#{location.voiture.id_voiture}" rendered="#{not location.editable}"/>
+							<p:cellEditor>
+								<f:facet name="output"><h:outputText value="#{location.voiture.id_voiture}"/></f:facet>
+								<f:facet name="input"><h:inputText value="#{location.voiture.id_voiture}" style="width:100%"/></f:facet>
+							</p:cellEditor>
 						</p:column>
 						<p:column>
 							<f:facet name="header">identifiant client</f:facet>
-							<h:inputText value="#{location.client.id_personne}" rendered="#{location.editable}"/>
-							<h:outputText value="#{location.client.id_personne}" rendered="#{not location.editable}"/>
+							<p:cellEditor>
+								<f:facet name="output"><h:outputText value="#{location.voiture.id_personne}"/></f:facet>
+								<f:facet name="input"><h:inputText value="#{location.voiture.id_personne}" style="width:100%"/></f:facet>
+							</p:cellEditor>
 						</p:column>
 						<p:column>
 							<f:facet name="header">Édition</f:facet>
-							<p:commandButton value="Éditer" action="#{GestionVoituresBean.editerLocation(location)}" rendered="#{not location.editable}"/>
-							<h:outputText value=" "/>
 							<p:commandButton value="Supprimer" action="#{GestionVoituresBean.supprimerLocation(location)}" rendered="#{not location.editable}"/>
 						</p:column>
 					</p:dataTable>
 					<p:commandButton value="Save" action="#{GestionVoituresBean.saveEditionLocation}" update="mydata2"/>
 					
-					<p:panelGrid columns="4">
+					<p:panelGrid columns="5">
 						<f:facet name="header">Ajouter une location</f:facet>
 						<h:outputLabel for="id_voiture" value="Identifiant voiture : "/>
 						<h:inputText id="id_voiture" value="#{GestionVoituresBean.id_voiture}"/>
